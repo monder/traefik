@@ -30,6 +30,7 @@ const (
 	annotationKubernetesLoadBalancerMethod              = "ingress.kubernetes.io/load-balancer-method"
 	annotationKubernetesAffinity                        = "ingress.kubernetes.io/affinity"
 	annotationKubernetesSessionCookieName               = "ingress.kubernetes.io/session-cookie-name"
+	annotationKubernetesSessionCookieSecret             = "ingress.kubernetes.io/session-cookie-secret"
 	annotationKubernetesRuleType                        = "ingress.kubernetes.io/rule-type"
 	annotationKubernetesRedirectEntryPoint              = "ingress.kubernetes.io/redirect-entry-point"
 	annotationKubernetesRedirectPermanent               = "ingress.kubernetes.io/redirect-permanent"

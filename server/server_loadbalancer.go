@@ -125,9 +125,11 @@ func (s *Server) buildLoadBalancer(frontendName string, backendName string, back
 
 	var stickySession *roundrobin.StickySession
 	var cookieName string
+	var cookieSecret string
 	if stickiness := backend.LoadBalancer.Stickiness; stickiness != nil {
 		cookieName = cookie.GetName(stickiness.CookieName, backendName)
-		stickySession = roundrobin.NewStickySession(cookieName)
+		cookieSecret = cookie.GetName(stickiness.CookieSecret, backendName)
+		stickySession = roundrobin.NewStickySession(cookieName, cookieSecret)
 	}
 
 	lbMethod, err := types.NewLoadBalancerMethod(backend.LoadBalancer)
