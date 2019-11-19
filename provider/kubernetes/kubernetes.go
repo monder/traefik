@@ -346,7 +346,7 @@ func (p *Provider) loadIngresses(k8sClient Client) (*types.Configuration, error)
 				if len(r.Host) > 0 {
 					if _, exists := frontend.Routes[r.Host]; !exists {
 						frontend.Routes[r.Host] = types.Route{
-							Rule: getRuleForHost(r.Host),
+							Rule: getRuleForHost(r.Host, i.Annotations),
 						}
 					}
 				}
@@ -719,7 +719,10 @@ func parseRequestModifier(requestModifier, ruleType string) (string, error) {
 	return modifier + ":" + value, nil
 }
 
-func getRuleForHost(host string) string {
+func getRuleForHost(host string, annotations map[string]string) string {
+	if annotation, ok := annotations["regex.ingress.kubernetes.io/"+host]; ok {
+		return "HostRegexp:" + annotation
+	}
 	if strings.Contains(host, "*") {
 		return "HostRegexp:" + strings.Replace(host, "*", "{subdomain:[A-Za-z0-9-_]+}", 1)
 	}
